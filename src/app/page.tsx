@@ -2,6 +2,10 @@
 
 import { useState } from 'react';
 
+import './global.css';
+
+import styles from './page.module.css';
+
 const nouns = [
 	'꽃',
 	'산',
@@ -174,12 +178,13 @@ const getRandomMetaphor = () => {
 };
 
 export default function Home() {
-	const [metaphor, setMetaphor] = useState('은유 기계');
+	const [metaphor, setMetaphor] = useState('영감의 원천');
 
 	return (
-		<div>
-			<div>{metaphor}</div>
-			<button type="button" onClick={() => setMetaphor(getRandomMetaphor())}>
+		<div className={styles.wrapper}>
+			<h1 className={styles.title}>은유 기계</h1>
+			<p className={styles['metaphor']}>{metaphor}</p>
+			<button className={styles['creative-button']} type="button" onClick={() => setMetaphor(getRandomMetaphor())}>
 				새로운 문장을 만들어줘!
 			</button>
 		</div>

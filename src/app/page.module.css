@@ -1,0 +1,34 @@
+.wrapper {
+	max-width: 31.25rem;
+
+	margin: 0rem auto;
+	padding-top: 6.25rem;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 24px;
+}
+
+.title {
+	font-size: 3rem;
+	font-weight: 600;
+}
+
+.metaphor {
+	font-size: 1.5rem;
+}
+
+.creative-button {
+	border: 0.125rem solid black;
+	border-radius: 0.625rem;
+
+	padding: 0.5rem 1rem;
+
+	transition: all 0.2s;
+}
+
+.creative-button:hover {
+	background-color: black;
+	color: white;
+}
