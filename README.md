@@ -19,7 +19,7 @@ npm run commit
 ```
 
 ## 기술 스택
-- Typescript, React, Next, React-Query, Axios, Prisma, Mysql, AWS RDS, Github-Actions, 
+- Typescript, React, Next, React-Query, Axios, Prisma, Mysql, AWS RDS, Github-Actions, Google-Analytics
 
 ## 버전
 
