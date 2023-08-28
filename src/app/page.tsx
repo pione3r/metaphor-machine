@@ -26,7 +26,7 @@ export default function Home() {
 		queryKey: ['nouns'],
 		queryFn: async () => {
 			const { data } = await axios.get('/api/noun');
-			return [...new Set([...dummyNouns, data.map((item: { content: string }) => item.content)])];
+			return [...new Set(dummyNouns.concat(data.map((item: { content: string }) => item.content)))];
 		},
 		staleTime: 1000 * 60 * 5,
 		refetchOnWindowFocus: false,
