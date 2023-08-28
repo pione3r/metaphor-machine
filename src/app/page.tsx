@@ -28,6 +28,8 @@ export default function Home() {
 			const { data } = await axios.get('/api/noun');
 			return [...new Set([...dummyNouns, data.map((item: { content: string }) => item.content)])];
 		},
+		staleTime: 1000 * 60 * 5,
+		refetchOnWindowFocus: false,
 	});
 
 	const { mutate } = useMutation({
