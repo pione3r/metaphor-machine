@@ -3,6 +3,10 @@
 
 	display: flex;
 	justify-content: center;
+
+	@media screen and (max-width: 720px) {
+		flex-direction: column;
+	}
 }
 
 .sub-wrapper {
