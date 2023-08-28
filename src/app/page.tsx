@@ -1,156 +1,91 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 
 import './global.css';
-
 import styles from './page.module.css';
 
-const nouns = [
-	'꽃',
-	'산',
-	'바다',
-	'별',
-	'햇살',
-	'숲',
-	'강',
-	'모래',
-	'하늘',
-	'바람',
-	'책',
-	'음악',
-	'예술',
-	'사랑',
-	'꿈',
-	'별명',
-	'모험',
-	'행운',
-	'시간',
-	'세상',
-	'과거',
-	'미래',
-	'인생',
-	'이야기',
-	'정원',
-	'고요',
-	'새벽',
-	'일몰',
-	'반딧불이',
-	'도시',
-	'나',
-	'너',
-	'귀뚜라미',
-	'코스모스',
-	'집',
-	'밤',
-	'눈',
-	'사람',
-	'마음',
-	'거리',
-	'얼굴',
-	'소리',
-	'아침',
-	'가을',
-	'생각',
-	'불',
-	'어둠',
-	'달',
-	'봄',
-	'아이',
-	'방',
-	'노래',
-	'나무',
-	'손',
-	'그림자',
-	'길',
-	'눈물',
-	'돌',
-	'기차',
-	'끝',
-	'언덕',
-	'저녁',
-	'어머니',
-	'머리',
-	'물결',
-	'겨울',
-	'코',
-	'조개',
-	'포기',
-	'햇님',
-	'햇빛',
-	'황혼',
-	'단풍',
-	'강물',
-	'편지',
-	'비',
-	'고향',
-	'닭',
-	'꽃밭',
-	'구름',
-	'잎',
-	'마을',
-	'지붕',
-	'나비',
-	'발',
-	'전차',
-	'성벽',
-	'해바라기',
-	'시계',
-	'전등',
-	'글씨',
-	'울음',
-	'뼈',
-	'젊은이',
-	'남대문',
-	'간판',
-	'세계',
-	'창',
-	'논',
-	'여름',
-	'공부',
-	'안개',
-	'바구니',
-	'혼자',
-	'땅',
-	'춤',
-	'터널',
-	'지도',
-	'자국',
-	'처음',
-	'감자',
-	'시대',
-	'우주',
-	'계절',
-	'달걀',
-	'연기',
-	'굴뚝',
-	'종이',
-	'죽음',
-	'물',
-	'물감',
-	'처마',
-	'병아리',
-	'달빛',
-	'돌담',
-	'걱정',
-	'비둘기',
-	'공기',
-	'민들레',
-	'살구나무',
-	'십자가',
-	'흙',
-	'손가락',
-	'뒷골목',
-	'진달래',
-	'문살',
-	'바닷가',
-	'바위',
-	'슬픔',
-	'번개',
-	'잔디밭',
-	'나뭇가지',
-	'노트',
-];
+import { dummyNouns } from './dummyNouns';
+
+import axios, { AxiosError } from 'axios';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import LoadingSpinner from '@/components/LoadingSpinner';
+
+export default function Home() {
+	const [metaphor, setMetaphor] = useState('영감의 원천');
+
+	const [newNoun, setNewNoun] = useState('');
+
+	const queryClient = useQueryClient();
+
+	const { data: nouns, isLoading } = useQuery<string[]>({
+		queryKey: ['nouns'],
+		queryFn: async () => {
+			const { data } = await axios.get('/api/noun');
+			return [...new Set([...dummyNouns, data.map((item: { content: string }) => item.content)])];
+		},
+	});
+
+	const { mutate } = useMutation({
+		mutationFn: (noun: string) => axios.post('/api/noun', { content: noun }),
+		onSuccess: () => {
+			// Invalidate and refetch
+			queryClient.invalidateQueries({ queryKey: ['nouns'] });
+			alert('냠냠');
+		},
+		onError: (err: AxiosError) => {
+			if (err.response?.status === 401) alert('먹지 못했어요.. 401');
+			if (err.response?.status === 500) alert('먹지 못했어요.. 500');
+		},
+	});
+
+	if (isLoading) return <LoadingSpinner />;
+
+	return (
+		<div className={styles.wrapper}>
+			<div className={styles['sub-wrapper']}>
+				<h1 className={styles.title}>은유 기계</h1>
+				<p className={styles['metaphor']}>{metaphor}</p>
+				<button
+					className={styles['creative-button']}
+					type="button"
+					onClick={() => setMetaphor(getRandomMetaphor(nouns!))}
+				>
+					새로운 문장을 만들어줘!
+				</button>
+			</div>
+			<div className={styles['sub-wrapper']}>
+				<form className={styles.form}>
+					<input type="text" style={{ display: 'none' }} />
+					<input
+						className={styles.input}
+						placeholder="명사를 입력해주세요. ex) 꽃"
+						value={newNoun}
+						onChange={(e) => setNewNoun(e.target.value)}
+					/>
+					<button
+						className={styles['creative-button']}
+						type="button"
+						onClick={() => {
+							if (!isKoreanNoun(newNoun)) {
+								alert('한글 명사만 입력해주세요!');
+								return;
+							}
+							mutate(newNoun);
+						}}
+					>
+						먹이주기
+					</button>
+					<p className={styles['input-desc']}>새로 전달해준 단어는 기계의 동력이 돼요</p>
+				</form>
+			</div>
+			<Link className={styles.maker} href="https://github.com/pione3r" target="__blank">
+				기계 제작자
+			</Link>
+		</div>
+	);
+}
 
 const particlesForLastConsonant = ['은', '이', '을'];
 
@@ -169,7 +104,7 @@ const getRandomParticle = (str: string) => {
 		: particlesForNoLastConsonant[getRandomIndex(particlesForNoLastConsonant)];
 };
 
-const getRandomMetaphor = () => {
+const getRandomMetaphor = (nouns: string[]) => {
 	const frontWord = nouns[getRandomIndex(nouns)];
 	const middleWord = nouns[getRandomIndex(nouns)];
 	const backWord = nouns[getRandomIndex(nouns)];
@@ -177,16 +112,8 @@ const getRandomMetaphor = () => {
 	return `${frontWord}${getRandomParticle(frontWord)} ${middleWord}의 ${backWord}`;
 };
 
-export default function Home() {
-	const [metaphor, setMetaphor] = useState('영감의 원천');
+const isKoreanNoun = (newNoun: string) => {
+	const koreanNounPattern = /^[가-힣]+$/;
 
-	return (
-		<div className={styles.wrapper}>
-			<h1 className={styles.title}>은유 기계</h1>
-			<p className={styles['metaphor']}>{metaphor}</p>
-			<button className={styles['creative-button']} type="button" onClick={() => setMetaphor(getRandomMetaphor())}>
-				새로운 문장을 만들어줘!
-			</button>
-		</div>
-	);
-}
+	return koreanNounPattern.test(newNoun);
+};
