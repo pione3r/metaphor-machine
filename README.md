@@ -18,6 +18,9 @@ npm run test
 npm run commit
 ```
 
+## 기술 스택
+- Typescript, React, Next, React-Query, Axios, Prisma, Mysql, AWS RDS, Github-Actions, 
+
 ## 버전
 
 - 0.1.0 : Chatgpt가 뽑아준 각각 30개의 형용사, 명사 리스트의 단순한 조합 기능
