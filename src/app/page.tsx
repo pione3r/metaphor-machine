@@ -1,5 +1,6 @@
 'use client';
 
+import Script from 'next/script';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -11,6 +12,8 @@ import { dummyNouns } from './dummyNouns';
 import axios, { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/LoadingSpinner';
+
+import * as gtag from '../lib/gtags';
 
 export default function Home() {
 	const [metaphor, setMetaphor] = useState('영감의 원천');
@@ -73,6 +76,12 @@ export default function Home() {
 								return;
 							}
 							mutate(newNoun);
+							gtag.event('새로운 명사 추가 버튼 클릭', {
+								event_category: 'button click',
+								event_label: 'noun',
+								value: 1,
+							});
+							setNewNoun('');
 						}}
 					>
 						먹이주기
@@ -83,6 +92,18 @@ export default function Home() {
 			<Link className={styles.maker} href="https://github.com/pione3r" target="__blank">
 				기계 제작자
 			</Link>
+			<Script strategy="afterInteractive" src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`} />
+			<Script id="google-analytics" strategy="afterInteractive">
+				{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+ 
+					gtag('config', '${gtag.GA_TRACKING_ID}', {
+						page_path: window.location.pathname,
+					});        
+				`}
+			</Script>
 		</div>
 	);
 }
