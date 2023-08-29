@@ -1,66 +1,17 @@
 .wrapper {
-	padding-top: 6.25rem;
-
-	display: flex;
-	justify-content: center;
-
-	@media screen and (max-width: 720px) {
-		flex-direction: column;
-	}
-}
-
-.sub-wrapper {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1.5rem;
+	gap: 1rem;
 
-	min-width: 300px;
+	padding-top: 128px;
+
+	@media screen and (max-width: 720px) {
+		padding-top: 64px;
+	}
 }
 
 .title {
 	font-size: 3rem;
 	font-weight: 600;
-}
-
-.metaphor {
-	font-size: 1.5rem;
-}
-
-.creative-button {
-	border: 0.125rem solid black;
-	border-radius: 0.625rem;
-
-	padding: 0.5rem 1rem;
-
-	transition: all 0.2s;
-}
-
-.creative-button:hover {
-	background-color: black;
-	color: white;
-}
-
-.form {
-	display: flex;
-	flex-direction: column;
-	gap: 1.5rem;
-
-	margin-top: 5.8125rem;
-}
-
-.input {
-	padding: 0.3rem 0.5rem;
-}
-
-.input-desc {
-	color: #868686;
-
-	font-size: 0.8rem;
-}
-
-.maker {
-	position: fixed;
-	right: 3.125rem;
-	bottom: 3.125rem;
 }
