@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-	siteUrl: 'https://metaphor-machine.vercel.app/',
+	siteUrl: 'https://metaphor-machine.vercel.app',
 	generateRobotsTxt: true,
 	changefreq: 'daily',
 	priority: 1,
