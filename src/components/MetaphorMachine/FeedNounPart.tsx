@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 
-import { styled } from 'styled-components';
-
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 
@@ -34,10 +32,16 @@ export function FeedNounPart() {
 	});
 
 	return (
-		<Wrapper>
+		<form className="flex flex-col gap-[1.5rem]">
 			<input type="text" style={{ display: 'none' }} />
-			<Input placeholder="명사를 입력해주세요. ex) 꽃" value={noun} onChange={(e) => setNoun(e.target.value)} />
-			<Button
+			<input
+				className="p-[0.3rem,0.5rem]"
+				placeholder="명사를 입력해주세요. ex) 꽃"
+				value={noun}
+				onChange={(e) => setNoun(e.target.value)}
+			/>
+			<button
+				className="border-[0.125rem] rounded-[0.625rem] p-[0.5rem,1rem] transition-all duration-200 hover:bg-black hover:text-white"
 				type="button"
 				onClick={() => {
 					if (!isKoreanNoun(noun)) {
@@ -54,38 +58,8 @@ export function FeedNounPart() {
 				}}
 			>
 				먹이주기
-			</Button>
-			<Desc>새로 전달해준 단어는 기계의 동력이 돼요</Desc>
-		</Wrapper>
+			</button>
+			<p className="text-[#868686] text-[0.8rem]">새로 전달해준 단어는 기계의 동력이 돼요</p>
+		</form>
 	);
 }
-
-const Wrapper = styled.form`
-	display: flex;
-	flex-direction: column;
-	gap: 1.5rem;
-`;
-
-const Input = styled.input`
-	padding: 0.3rem 0.5rem;
-`;
-
-const Button = styled.button`
-	border: 0.125rem solid black;
-	border-radius: 0.625rem;
-
-	padding: 0.5rem 1rem;
-
-	transition: all 0.2s;
-
-	&:hover {
-		background-color: black;
-		color: white;
-	}
-`;
-
-const Desc = styled.p`
-	color: #868686;
-
-	font-size: 0.8rem;
-`;

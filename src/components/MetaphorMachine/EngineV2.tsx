@@ -4,18 +4,22 @@ import { useState } from 'react';
 
 import axios from 'axios';
 
-import { styled } from 'styled-components';
-
 export function EngineV2() {
 	const [metaphor, setMetaphor] = useState('영감의 원천');
 
 	const [twoNouns, setTwoNouns] = useState('');
 
 	return (
-		<Wrapper>
-			<MetaphorResult>{metaphor}</MetaphorResult>
-			<Input placeholder="ex) 새벽, 밤" value={twoNouns} onChange={(e) => setTwoNouns(e.target.value)} />
-			<Button
+		<div className="flex flex-col items-center gap-[1.5rem]">
+			<p className="text-[1.5rem] md:max-w-[250px] md:text-[1.3rem] break-keep text-center">{metaphor}</p>
+			<input
+				className="p-[0.3rem,0.5rem]"
+				placeholder="ex) 새벽, 밤"
+				value={twoNouns}
+				onChange={(e) => setTwoNouns(e.target.value)}
+			/>
+			<button
+				className="border-[0.125rem] rounded-[0.625rem] p-[0.5rem,1rem] transition-all duration-200 hover:bg-black hover:text-white"
 				type="button"
 				onClick={async () => {
 					const koreanNounListPattern = /^([가-힣]+, )*[가-힣]+$/;
@@ -35,44 +39,7 @@ export function EngineV2() {
 				}}
 			>
 				새로운 문장을 만들어줘!
-			</Button>
-		</Wrapper>
+			</button>
+		</div>
 	);
 }
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1.5rem;
-`;
-
-const MetaphorResult = styled.p`
-	font-size: 1.5rem;
-
-	@media screen and (max-width: 720px) {
-		max-width: 250px;
-
-		font-size: 1.3rem;
-		word-break: keep-all;
-		text-align: center;
-	}
-`;
-
-const Input = styled.input`
-	padding: 0.3rem 0.5rem;
-`;
-
-const Button = styled.button`
-	border: 0.125rem solid black;
-	border-radius: 0.625rem;
-
-	padding: 0.5rem 1rem;
-
-	transition: all 0.2s;
-
-	&:hover {
-		background-color: black;
-		color: white;
-	}
-`;

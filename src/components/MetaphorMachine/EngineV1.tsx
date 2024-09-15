@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
-import { styled } from 'styled-components';
 import { dummyNouns } from './dummyNouns';
 
 export function EngineV1() {
@@ -25,12 +24,16 @@ export function EngineV1() {
 	if (isLoading) return <LoadingSpinner />;
 
 	return (
-		<Wrapper>
-			<MetaphorResult>{metaphor}</MetaphorResult>
-			<Button type="button" onClick={() => setMetaphor(getRandomMetaphor(nouns!))}>
+		<div className="flex flex-col items-center gap-[1.5rem]">
+			<p className="text-[1.5rem]">{metaphor}</p>
+			<button
+				className="border-[0.125rem] rounded-[0.625rem] p-[0.5rem,1rem] transition-all duration-200 hover:bg-black hover:text-white"
+				type="button"
+				onClick={() => setMetaphor(getRandomMetaphor(nouns!))}
+			>
 				새로운 문장을 만들어줘!
-			</Button>
-		</Wrapper>
+			</button>
+		</div>
 	);
 }
 
@@ -58,28 +61,3 @@ const getRandomMetaphor = (nouns: string[]) => {
 
 	return `${frontWord}${getRandomParticle(frontWord)} ${middleWord}의 ${backWord}`;
 };
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1.5rem;
-`;
-
-const MetaphorResult = styled.p`
-	font-size: 1.5rem;
-`;
-
-const Button = styled.button`
-	border: 0.125rem solid black;
-	border-radius: 0.625rem;
-
-	padding: 0.5rem 1rem;
-
-	transition: all 0.2s;
-
-	&:hover {
-		background-color: black;
-		color: white;
-	}
-`;

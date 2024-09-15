@@ -1,16 +1,13 @@
-import ReactQueryProvider from '@/lib/ReactQueryProvider';
-import RecoilProvider from '@/lib/RecoilProvider';
-import StyledComponentsRegistry from '@/lib/StyledComponentsRegistry';
-
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Script from 'next/script';
 
-import styles from './layout.module.css';
+import ReactQueryProvider from '@/lib/ReactQueryProvider';
+import RecoilProvider from '@/lib/RecoilProvider';
+import * as gtag from '@/lib/gtags';
 
 import './global.css';
 
-import * as gtag from '../lib/gtags';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
 	title: 'Metaphor Machine',
@@ -26,17 +23,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<body>
 				<RecoilProvider>
 					<ReactQueryProvider>
-						<StyledComponentsRegistry>
-							{children}
-							<Link className={styles.maker} href="https://github.com/pione3r" target="__blank">
-								기계 제작자
-							</Link>
-							<Script
-								strategy="afterInteractive"
-								src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-							/>
-							<Script id="google-analytics" strategy="afterInteractive">
-								{`
+						{children}
+						<Link
+							className="fixed right-[3.125rem] bottom-[3.125rem]"
+							href="https://github.com/pione3r"
+							target="__blank"
+						>
+							기계 제작자
+						</Link>
+						<Script
+							strategy="afterInteractive"
+							src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+						/>
+						<Script id="google-analytics" strategy="afterInteractive">
+							{`
 									window.dataLayer = window.dataLayer || [];
 									function gtag(){dataLayer.push(arguments);}
 									gtag('js', new Date());
@@ -45,8 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 										page_path: window.location.pathname,
 									});        
 								`}
-							</Script>
-						</StyledComponentsRegistry>
+						</Script>
 					</ReactQueryProvider>
 				</RecoilProvider>
 			</body>

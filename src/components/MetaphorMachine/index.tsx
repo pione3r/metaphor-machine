@@ -1,7 +1,5 @@
 'use client';
 
-import { styled } from 'styled-components';
-
 import { EngineV1 } from './EngineV1';
 import { EngineV2 } from './EngineV2';
 import { FeedNounPart } from './FeedNounPart';
@@ -13,17 +11,10 @@ export default function MetaphorMachine() {
 	const version = useRecoilValue(versionState);
 
 	return (
-		<Wrapper>
+		<div className="flex flex-col items-center gap-[2rem]">
 			{version === 1 && <EngineV1 />}
 			{version === 2 && <EngineV2 />}
 			<FeedNounPart />
-		</Wrapper>
+		</div>
 	);
 }
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2rem;
-`;
